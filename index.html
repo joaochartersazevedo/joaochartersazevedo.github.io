@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Pixelify+Sans:wght@500;700&display=swap">
 <style>
 :root {
   --bg: #fbfbfd;
@@ -125,7 +125,20 @@ section { padding: clamp(72px, 12vw, 140px) 0 0; }
 .app { display: flex; align-items: center; gap: clamp(16px, 3vw, 28px); }
 .app-icon { width: clamp(72px, 12vw, 104px); height: auto; aspect-ratio: 1; border-radius: 22.37%; flex: none; box-shadow: 0 0 0 1px var(--line), 0 10px 28px rgba(240, 122, 0, 0.28); }
 .app h2 { font-family: var(--pixel); font-weight: 700; letter-spacing: 0; line-height: 1; }
-.stores { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.stores { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 28px; }
+/* Same button as gymrpg.app */
+.cta {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 48px;
+  background: linear-gradient(180deg, #ffa931, #f69618 55%, #e8890f); color: #fff;
+  text-shadow: 0 1px 2px rgba(120, 60, 0, 0.35);
+  font: 800 1.125rem/1 "Montserrat", var(--font); letter-spacing: 0.01em;
+  border: 1px solid rgba(255, 220, 160, 0.45); border-radius: 14px;
+  box-shadow: inset 0 1px #fff6, 0 6px 24px #f6961840;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), filter 200ms;
+}
+.cta:hover { text-decoration: none; transform: translateY(-2px); filter: brightness(1.08); }
+.cta:active { transform: scale(0.97); }
+.free { margin: 0; font-size: 0.875rem; color: var(--muted); }
 
 /* Screenshot rail: native scroll, snap, momentum, mouse drag */
 .rail {
@@ -189,7 +202,7 @@ footer { margin-top: clamp(72px, 12vw, 140px); padding: 28px 0 48px; border-top:
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .bar i { transition: none; transform: none; }
-  .btn, .rail img, .xp .fill { transition: none; }
+  .btn, .cta, .rail img, .xp .fill { transition: none; }
   .rail:not(.drag) img:hover { transform: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
@@ -247,8 +260,8 @@ footer { margin-top: clamp(72px, 12vw, 140px); padding: 28px 0 48px; border-top:
       </div>
       <p class="lead">A fitness app that plays like an RPG. Log workouts and meals, level up a pixel-art character, and fight bosses with friends.</p>
       <div class="stores">
-        <a class="btn alt" href="https://play.google.com/store/apps/details?id=com.jonhy.gymrpg">Google Play</a>
-        <a class="btn alt" href="https://apps.apple.com/app/id6772619769">App Store</a>
+        <a class="cta" href="https://gymrpg.app/download/?utm_source=joaochartersazevedo.github.io&amp;utm_medium=portfolio&amp;utm_content=gymrpg_section">Download</a>
+        <p class="free">Free to download · iOS &amp; Android</p>
       </div>
     </div>
     <div class="rail" id="rail" role="group" aria-label="GYM RPG screenshots">
