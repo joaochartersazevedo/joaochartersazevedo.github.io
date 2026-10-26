@@ -6,11 +6,14 @@
 <title>João Azevedo | Mobile and full-stack engineer</title>
 <meta name="description" content="Mobile and full-stack engineer in Portugal. Built and shipped GYM RPG solo: 1,447 monthly active users on iOS and Android, Flutter and Supabase.">
 <meta name="color-scheme" content="light dark">
-<link rel="icon" href="images/joao.jpg">
+<link rel="icon" href="images/favicon.png">
 <meta property="og:title" content="João Azevedo | Mobile and full-stack engineer">
 <meta property="og:description" content="I shipped GYM RPG solo to 1,447 monthly active users on iOS and Android.">
 <meta property="og:image" content="https://joaochartersazevedo.github.io/images/joao.jpg">
 <meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&display=swap">
 <style>
 :root {
   --bg: #fbfbfd;
@@ -19,11 +22,12 @@
   --muted: #6e6e73;
   --line: rgba(0, 0, 0, 0.12);
   --accent: #c25500;
-  --accent-big: #e46a00;
+  --accent-big: #f07a00;
   --btn-bg: #1d1d1f;
   --btn-text: #fbfbfd;
   --nav-bg: rgba(251, 251, 253, 0.72);
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI Variable", "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --pixel: "Pixelify Sans", ui-monospace, "SF Mono", Menlo, monospace;
   --gutter: clamp(20px, 5vw, 48px);
   --max: 1040px;
 }
@@ -77,9 +81,33 @@ h3 { font-size: 1.1875rem; line-height: 1.3; letter-spacing: -0.012em; font-weig
 .lead { font-size: clamp(1.1875rem, 2.4vw, 1.5rem); line-height: 1.4; letter-spacing: -0.01em; color: var(--muted); max-width: 34em; margin: 20px 0 0; }
 
 section { padding: clamp(72px, 12vw, 140px) 0 0; }
-.hero { padding-top: clamp(64px, 11vw, 128px); }
-.portrait { display: block; width: clamp(104px, 18vw, 148px); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; margin-bottom: 32px; box-shadow: 0 0 0 1px var(--line), 0 12px 32px rgba(0,0,0,0.14); }
+.hero { padding-top: clamp(48px, 9vw, 112px); }
 .hero h1 { max-width: 12em; }
+
+/* Hero: portrait plus three pets you can pet for XP */
+.crew { display: flex; align-items: flex-end; gap: clamp(10px, 2.5vw, 20px); margin-bottom: 32px; position: relative; }
+.portrait { display: block; width: clamp(104px, 18vw, 148px); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px var(--line), 0 12px 32px rgba(0,0,0,0.14); }
+.pet {
+  appearance: none; border: 0; background: none; padding: 0; margin: 0; cursor: pointer;
+  width: clamp(52px, 9vw, 72px); height: clamp(52px, 9vw, 72px);
+  -webkit-tap-highlight-color: transparent; transform-origin: 50% 100%;
+}
+.pet img { display: block; width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; }
+.pet:active { transform: scale(0.94); }
+.float {
+  position: absolute; pointer-events: none; z-index: 2;
+  font: 700 1rem/1 var(--pixel); color: var(--accent-big);
+  text-shadow: 0 1px 0 var(--bg), 0 -1px 0 var(--bg), 1px 0 0 var(--bg), -1px 0 0 var(--bg);
+}
+.xp { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 40px 0 24px; font: 500 0.9375rem/1 var(--pixel); color: var(--muted); }
+.xp b { color: var(--text); font-weight: 700; }
+.xp .track { position: relative; width: clamp(120px, 28vw, 180px); height: 10px; border-radius: 2px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+.xp .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--accent-big); transition: width 260ms cubic-bezier(0.2, 0.9, 0.2, 1); }
+.xp .hint { font-family: var(--font); font-size: 0.8125rem; }
+.reward { display: none; align-items: center; gap: 14px; margin: 0 0 24px; padding: 12px 16px; border-radius: 16px; background: var(--panel); max-width: 30em; font-size: 0.9375rem; }
+.reward.show { display: flex; }
+.reward img { width: 48px; height: 40px; image-rendering: pixelated; flex: none; }
+.reward p { margin: 0; }
 
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
 .btn {
@@ -89,27 +117,39 @@ section { padding: clamp(72px, 12vw, 140px) 0 0; }
 }
 .btn:hover { text-decoration: none; opacity: 0.88; }
 .btn:active { transform: scale(0.97); }
+.btn.alt { background: var(--panel); color: var(--text); padding: 10px 20px; font-size: 0.9375rem; }
 .more { font-size: 1.0625rem; }
 .more::after { content: " \203A"; }
 
-/* Screenshot rail: native scroll, snap, momentum */
+/* App header: icon + name */
+.app { display: flex; align-items: center; gap: clamp(16px, 3vw, 28px); }
+.app-icon { width: clamp(72px, 12vw, 104px); height: auto; aspect-ratio: 1; border-radius: 22.37%; flex: none; box-shadow: 0 0 0 1px var(--line), 0 10px 28px rgba(240, 122, 0, 0.28); }
+.app h2 { font-family: var(--pixel); font-weight: 700; letter-spacing: 0; line-height: 1; }
+.stores { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+/* Screenshot rail: native scroll, snap, momentum, mouse drag */
 .rail {
+  --inset: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
   display: flex; gap: 20px; margin-top: 56px;
   overflow-x: auto; scroll-snap-type: x proximity;
-  padding: 0 var(--gutter) 24px;
-  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding: 16px var(--gutter) 28px var(--inset);
+  scroll-padding-left: var(--inset);
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; cursor: grab;
 }
+.rail.drag { cursor: grabbing; scroll-snap-type: none; }
 .rail::-webkit-scrollbar { display: none; }
-.rail { --inset: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))); padding-left: var(--inset); scroll-padding-left: var(--inset); }
 .rail img {
   flex: none; width: clamp(200px, 26vw, 260px); height: auto; aspect-ratio: 9 / 16;
   border-radius: 28px; scroll-snap-align: start; background: var(--panel);
   box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.12);
+  -webkit-user-drag: none; user-select: none;
+  transition: transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
+@media (hover: hover) { .rail:not(.drag) img:hover { transform: translateY(-8px) rotate(-1.2deg); } }
 
 /* Numbers */
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 48px 32px; margin-top: 72px; }
-.stat b { display: block; font-size: clamp(2.5rem, 6vw, 3.75rem); line-height: 1; letter-spacing: -0.035em; font-weight: 700; color: var(--accent-big); font-variant-numeric: tabular-nums; }
+.stat b { display: block; font: 700 clamp(2.5rem, 6vw, 3.75rem)/1 var(--pixel); color: var(--accent-big); font-variant-numeric: tabular-nums; }
 .stat span { display: block; margin-top: 10px; color: var(--muted); font-size: 0.9375rem; max-width: 16em; }
 
 /* Growth chart */
@@ -118,7 +158,7 @@ section { padding: clamp(72px, 12vw, 140px) 0 0; }
 .bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(8px, 2vw, 20px); align-items: end; }
 .bar { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--muted); }
 .bar i {
-  display: block; width: 100%; border-radius: 8px 8px 2px 2px; background: var(--accent-big);
+  display: block; width: 100%; border-radius: 6px 6px 2px 2px; background: var(--accent-big);
   height: calc(var(--p) * 170px); transform-origin: bottom; transform: scaleY(0);
   transition: transform 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
@@ -138,7 +178,6 @@ section { padding: clamp(72px, 12vw, 140px) 0 0; }
 .row p { margin: 0; color: var(--muted); max-width: 40em; }
 @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
 
-.split { display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 40px; }
 .panel { background: var(--panel); border-radius: 24px; padding: clamp(24px, 5vw, 48px); margin-top: 48px; }
 .panel p { margin: 0 0 16px; max-width: 40em; }
 .panel p:last-child { margin-bottom: 0; }
@@ -150,7 +189,8 @@ footer { margin-top: clamp(72px, 12vw, 140px); padding: 28px 0 48px; border-top:
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .bar i { transition: none; transform: none; }
-  .btn { transition: none; }
+  .btn, .rail img, .xp .fill { transition: none; }
+  .rail:not(.drag) img:hover { transform: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
   .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -175,37 +215,59 @@ footer { margin-top: clamp(72px, 12vw, 140px); padding: 28px 0 48px; border-top:
 
 <main>
   <section class="hero wrap">
-    <img class="portrait" src="images/joao.jpg" alt="João Azevedo smiling, wearing glasses and a dark hoodie" width="439" height="439">
+    <div class="crew" id="crew">
+      <img class="portrait" src="images/joao.jpg" alt="João Azevedo smiling, wearing glasses and a dark hoodie" width="440" height="440">
+      <button class="pet" type="button" aria-label="Pet the cat to earn XP"><img src="images/pets/cat.png" alt="" width="96" height="96"></button>
+      <button class="pet" type="button" aria-label="Pet the frog to earn XP"><img src="images/pets/frog.png" alt="" width="96" height="96"></button>
+      <button class="pet" type="button" aria-label="Pet the penguin to earn XP"><img src="images/pets/penguin.png" alt="" width="96" height="96"></button>
+    </div>
     <h1>Hi, I'm João.</h1>
     <p class="lead">I'm a software engineer from Lisbon. I designed, built and launched GYM RPG on my own, and 1,447 people use it every month on iOS and Android.</p>
     <div class="actions">
       <a class="btn" href="#gymrpg">See GYM RPG</a>
       <a class="more" href="Joao-Azevedo-CV.pdf">Download CV</a>
     </div>
+    <div class="xp" aria-live="polite">
+      <span>Lv <b id="lvl">1</b></span>
+      <span class="track" role="progressbar" aria-label="XP" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="track"><span class="fill" id="fill"></span></span>
+      <span><b id="xpn">0</b> / 100 XP</span>
+      <span class="hint">Tap the pets.</span>
+    </div>
+    <div class="reward" id="reward">
+      <img src="images/pets/chest.png" alt="" width="64" height="52" id="chest">
+      <p id="rewardText"></p>
+    </div>
   </section>
 
   <section id="gymrpg">
     <div class="wrap">
-      <h2>GYM RPG</h2>
+      <div class="app">
+        <img class="app-icon" src="images/icon.png" alt="GYM RPG app icon: a dumbbell on an orange background" width="256" height="256">
+        <h2>GYM RPG</h2>
+      </div>
       <p class="lead">A fitness app that plays like an RPG. Log workouts and meals, level up a pixel-art character, and fight bosses with friends.</p>
+      <div class="stores">
+        <a class="btn alt" href="https://play.google.com/store/apps/details?id=com.jonhy.gymrpg">Google Play</a>
+        <a class="btn alt" href="https://apps.apple.com/app/id6772619769">App Store</a>
+      </div>
     </div>
-    <div class="rail" role="group" aria-label="GYM RPG screenshots">
-      <img src="images/screen1.jpg" alt="GYM RPG home screen with a character and level progress" width="540" height="960" loading="lazy">
-      <img src="images/screen2.jpg" alt="GYM RPG character growing as sets are logged" width="540" height="960" loading="lazy">
-      <img src="images/screen3.jpg" alt="GYM RPG parties with up to 20 friends" width="540" height="960" loading="lazy">
-      <img src="images/screen5.jpg" alt="GYM RPG workout plans that earn XP" width="540" height="960" loading="lazy">
-      <img src="images/screen7.jpg" alt="GYM RPG skill tree unlocked by sets and reps" width="540" height="960" loading="lazy">
-      <img src="images/screen8.jpg" alt="GYM RPG boss battle fought with pull-ups" width="540" height="960" loading="lazy">
+    <div class="rail" id="rail" role="group" aria-label="GYM RPG screenshots">
+      <img src="images/screen1.jpg" alt="GYM RPG home screen with a character and level progress" width="540" height="960" loading="lazy" draggable="false">
+      <img src="images/screen2.jpg" alt="GYM RPG character growing as sets are logged" width="540" height="960" loading="lazy" draggable="false">
+      <img src="images/screen3.jpg" alt="GYM RPG parties with up to 20 friends" width="540" height="960" loading="lazy" draggable="false">
+      <img src="images/screen5.jpg" alt="GYM RPG workout plans that earn XP" width="540" height="960" loading="lazy" draggable="false">
+      <img src="images/screen7.jpg" alt="GYM RPG skill tree unlocked by sets and reps" width="540" height="960" loading="lazy" draggable="false">
+      <img src="images/screen8.jpg" alt="GYM RPG boss battle fought with pull-ups" width="540" height="960" loading="lazy" draggable="false">
     </div>
 
     <div class="wrap">
-      <div class="stats">
-        <div class="stat"><b>1,447</b><span>monthly active users, from 56 in April</span></div>
-        <div class="stat"><b>5.0</b><span>rating on Google Play</span></div>
-        <div class="stat"><b>33</b><span>subscribers in the last 90 days</span></div>
-        <div class="stat"><b>9</b><span>languages, users in the US, Portugal, Brazil, Germany and more</span></div>
-        <div class="stat"><b>145+</b><span>builds shipped to the stores with Fastlane</span></div>
-        <div class="stat"><b>60+</b><span>server-side functions behind the game economy</span></div>
+      <div class="stats" id="stats">
+        <div class="stat"><b data-to="1447">1,447</b><span>monthly active users, from 56 in April</span></div>
+        <div class="stat"><b data-to="5" data-dec="1">5.0</b><span>rating on Google Play</span></div>
+        <div class="stat"><b data-to="33">33</b><span>subscribers in the last 90 days</span></div>
+        <div class="stat"><b data-to="9">9</b><span>languages, users in the US, Portugal, Brazil, Germany and more</span></div>
+        <div class="stat"><b data-to="145" data-suffix="+">145+</b><span>builds shipped to the stores with Fastlane</span></div>
+        <div class="stat"><b data-to="60" data-suffix="+">60+</b><span>server-side functions behind the game economy</span></div>
       </div>
 
       <div class="chart" id="chart">
@@ -232,8 +294,6 @@ footer { margin-top: clamp(72px, 12vw, 140px); padding: 28px 0 48px; border-top:
         <div class="row"><h3>Releases</h3><p>Fastlane and GitHub Actions ship to both stores. I handle App Review and Play policy cycles myself.</p></div>
       </div>
       <div class="links">
-        <a href="https://play.google.com/store/apps/details?id=com.jonhy.gymrpg">Google Play</a>
-        <a href="https://apps.apple.com/app/id6772619769">App Store</a>
         <a href="https://github.com/joaochartersazevedo/gymrpg-showcase">Showcase on GitHub</a>
       </div>
       <p class="note">The app's source code is private.</p>
@@ -249,7 +309,6 @@ footer { margin-top: clamp(72px, 12vw, 140px); padding: 28px 0 48px; border-top:
         <p>Players pick one of 16 emotions on a wheel. A language model writes the line in the character's voice from their personality, relationships and story context, and the designer reviews every line before it ships. I built it as a Flutter desktop app with an editor and a playable engine.</p>
         <p class="small">Tested with 8 participants. Editor usability scored 77.5 on the System Usability Scale (the usual pass mark is 68), and the play experience scored +1.49 on the User Experience Questionnaire, positive on all six scales.</p>
       </div>
-      <div class="links"><a href="https://github.com/joaochartersazevedo/flutterTese">Prototype on GitHub</a></div>
     </div>
   </section>
 
@@ -280,14 +339,116 @@ footer { margin-top: clamp(72px, 12vw, 140px); padding: 28px 0 48px; border-top:
 
 <script>
 (function () {
-  var chart = document.getElementById('chart');
-  if (!chart) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce || !('IntersectionObserver' in window)) { chart.classList.add('in'); return; }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) { chart.classList.add('in'); io.disconnect(); } });
-  }, { threshold: 0.35 });
-  io.observe(chart);
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* Pets: hop, +10 XP, level up opens a chest */
+  var crew = $('crew'), fill = $('fill'), xpn = $('xpn'), lvl = $('lvl'), track = $('track');
+  var reward = $('reward'), rewardText = $('rewardText'), chest = $('chest');
+  var xp = 0, level = 1;
+  var hops = new WeakMap();
+
+  function hop(el) {
+    if (reduce || !el.animate) return;
+    var prev = hops.get(el);
+    if (prev) prev.cancel();
+    var a = el.animate([
+      { transform: 'translateY(0) scale(1, 1)' },
+      { transform: 'translateY(-26px) scale(0.94, 1.08)', offset: 0.4 },
+      { transform: 'translateY(0) scale(1.1, 0.88)', offset: 0.72 },
+      { transform: 'translateY(0) scale(1, 1)' }
+    ], { duration: 520, easing: 'cubic-bezier(0.3, 0.7, 0.4, 1)' });
+    hops.set(el, a);
+  }
+
+  function floatText(pet, text) {
+    var box = crew.getBoundingClientRect(), r = pet.getBoundingClientRect();
+    var t = document.createElement('span');
+    t.className = 'float';
+    t.textContent = text;
+    t.style.left = (r.left - box.left + r.width / 2 - 20) + 'px';
+    t.style.top = (r.top - box.top - 8) + 'px';
+    crew.appendChild(t);
+    if (reduce || !t.animate) { setTimeout(function () { t.remove(); }, 700); return; }
+    t.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-36px)', opacity: 0 }],
+      { duration: 700, easing: 'ease-out' }).onfinish = function () { t.remove(); };
+  }
+
+  function render() {
+    fill.style.width = xp + '%';
+    xpn.textContent = xp;
+    lvl.textContent = level;
+    track.setAttribute('aria-valuenow', xp);
+  }
+
+  function levelUp() {
+    level += 1; xp = 0;
+    chest.src = 'images/pets/chest-open.png';
+    rewardText.innerHTML = 'Level ' + level + '. You found a chest with a reward: <a href="mailto:joaochartersazevedo@gmail.com">say hi to me</a>.';
+    reward.classList.add('show');
+  }
+
+  Array.prototype.forEach.call(crew.querySelectorAll('.pet'), function (pet) {
+    pet.addEventListener('click', function () {
+      hop(pet);
+      floatText(pet, '+10 XP');
+      xp += 10;
+      if (xp >= 100) { render(); setTimeout(function () { levelUp(); render(); }, 260); }
+      else render();
+    });
+  });
+
+  /* Intro: pets hop once, in order */
+  if (!reduce) {
+    Array.prototype.forEach.call(crew.querySelectorAll('.pet'), function (pet, i) {
+      setTimeout(function () { hop(pet); }, 500 + i * 140);
+    });
+  }
+
+  /* Count-up for the stat numbers */
+  var stats = $('stats');
+  function fmt(n, dec) { return n.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }); }
+  function countUp() {
+    Array.prototype.forEach.call(stats.querySelectorAll('b[data-to]'), function (b) {
+      var to = parseFloat(b.dataset.to), dec = parseInt(b.dataset.dec || '0', 10), suf = b.dataset.suffix || '';
+      var t0 = performance.now(), dur = 1100;
+      (function tick(now) {
+        var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+        b.textContent = fmt(to * e, dec) + suf;
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }
+
+  /* Chart bars grow, stats count up, each once when scrolled into view */
+  var chartEl = $('chart');
+  if (reduce || !('IntersectionObserver' in window)) {
+    chartEl.classList.add('in');
+  } else {
+    new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) { if (e.isIntersecting) { countUp(); obs.disconnect(); } });
+    }, { threshold: 0.35 }).observe(stats);
+    new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) { if (e.isIntersecting) { chartEl.classList.add('in'); obs.disconnect(); } });
+    }, { threshold: 0.35 }).observe(chartEl);
+  }
+
+  /* Drag to scroll the screenshot rail with a mouse; touch keeps native scrolling */
+  var rail = $('rail'), down = false, sx = 0, sl = 0, moved = false;
+  rail.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft;
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var dx = e.clientX - sx;
+    if (!moved && Math.abs(dx) > 6) { moved = true; rail.classList.add('drag'); }
+    if (moved) rail.scrollLeft = sl - dx;
+  });
+  window.addEventListener('pointerup', function () {
+    if (!down) return;
+    down = false; rail.classList.remove('drag');
+  });
 })();
 </script>
 </body>
